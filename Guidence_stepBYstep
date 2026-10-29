@@ -24,6 +24,13 @@ Import the Ready-Made System Dashboard
                             Dashboards
                               → New
                               → Import
+If Issue occoured -Follow the steps
+                        check ping- docker exec -it grafana ping grafana.com
+                        then run -  Import Dashboard Using JSON File Instead - https://grafana.com/api/dashboards/1860/revisions/37/download
+                        Import the Downloaded File 
+                                                Dashboards → Import → Upload dashboard JSON file
+                        Select Datasource - Prometheus → Select your Prometheus datasource  then click Import
+                        
 
 Create a Custom Dashboard
                       NAVIGATE
@@ -35,17 +42,33 @@ Create CPU Utilization Gauge- CPU Utilization %
                               PromQL - 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) ,  Visualization - Gauge , Settings - Unit = Percent (0-100) , Thresholds - Green  = 0-60, Yellow = 60-80, Red    = 80-100 , TitleCPU Utilization %  SAVE
 
 Create Memory Utilization Gauge
-
-          Query: PromQL 100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))
+          Query: PromQL- 100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))
                                                         Visualization:  Gauge
                                                         Unit: Percent
                                                         Thresholds: Green = 0-70 Yellow = 70-85 Red = 85-100
                                                         Title: Memory Utilization %  Save.
 
 
+Create Disk Utilization Gauge
+          Query: PromQL- 100 - ((node_filesystem_avail_bytes * 100)node_filesystem_size_bytes)
 
+                                                        Visualization:  Gauge
+                                                        Unit: Percent
+                                                        Thresholds: Green = 0-70 Yellow = 70-85 Red = 85-100
+                                                        Title: Disk Usage % %  Save.
 
+Step 9: Install Windows Exporter
+        Open your browser and download:        https://github.com/prometheus-community/windows_exporter/releases/latest   ----------(Choose the latest .msi installer.)
+        Step 10: Install Windows Exporter
 
+                        Run the MSI installer with default settings:
+                                        Keep checked:
+                                        ✅ Exporter Service
+                                        ✅ Firewall Exception
+                                        ✅ Default Collectors
+                                                After installation, confirm the service is running:
+                                                Open PowerShell: PowerShell  Get-Service windows_exporter
+                                                Verify Metrics - http://localhost:9182/metrics 
 
 
 
