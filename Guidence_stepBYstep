@@ -1,0 +1,61 @@
+docker compose up -d
+docker ps
+        grafana
+        prometheus
+        node-exporter
+
+Verify Node Exporter
+        http://localhost:9100/metrics
+        http://localhost:9090
+                            Status → Targets
+                            node = UP (see the status)
+
+        http://localhost:3000
+                            Username: admin
+                            Password: admin
+
+  Inside Grafana:
+                Connections
+                  → Data Sources
+                  → Add data source     select Prometheus    http://prometheus:9090    Save & Test
+
+Import the Ready-Made System Dashboard
+                  In Grafana: 
+                            Dashboards
+                              → New
+                              → Import
+
+Create a Custom Dashboard
+                      NAVIGATE
+                              Dashboards
+                                → New Dashboard
+                                → Add Visualization
+                                  Prometheus
+Create CPU Utilization Gauge- CPU Utilization %
+                              PromQL - 100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) ,  Visualization - Gauge , Settings - Unit = Percent (0-100) , Thresholds - Green  = 0-60, Yellow = 60-80, Red    = 80-100 , TitleCPU Utilization %  SAVE
+
+Create Memory Utilization Gauge
+
+          Query: PromQL 100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))
+                                                        Visualization:  Gauge
+                                                        Unit: Percent
+                                                        Thresholds: Green = 0-70 Yellow = 70-85 Red = 85-100
+                                                        Title: Memory Utilization %  Save.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
